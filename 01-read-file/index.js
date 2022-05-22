@@ -9,7 +9,7 @@ async function print(readable) {
   for await (const chunk of readable) {
     data += chunk;
   }
-  console.log(data);
+  return data;
 }
 
 print(fs.createReadStream(file)).catch(console.error);
