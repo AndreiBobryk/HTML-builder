@@ -37,3 +37,5 @@ const recursiveCopyFolder = (source, destination) => {
 };
 
 recursiveCopyFolder(folderPathSource, folderPathDestination);
+
+module.exports = recursiveCopyFolder;

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const fsPromise = fs.promises;
+const recursiveCopyFolder = require('../04-copy-directory/index');
 const bundleCSS = require('../05-merge-styles/index');
 
 const filesComponents = path.join(__dirname, "components");
@@ -8,7 +9,9 @@ const fileSrc = path.join(__dirname, "template.html");
 const pathDirDest = path.join(__dirname, "project-dist");
 const pathFileDest = path.join(__dirname, "project-dist", "index.html");
 const pathDirSrcBundle = path.join(__dirname, "styles");
-const pathDirDestBundle = path.join(__dirname, "project-dist", "bundle.css");
+const pathDirDestBundle = path.join(__dirname, "project-dist", "style.css");
+const pathDirSrcAssets = path.join(__dirname, 'assets');
+const pathDirDestAssets = path.join(__dirname, "project-dist", "assets");
 
 async function readTemplate(readable) {
   readable.setEncoding("utf8");
@@ -60,35 +63,13 @@ let template = readTemplate(fs.createReadStream(fileSrc)).then((v) => {
 fsPromise
   .mkdir(pathDirDest, { recursive: true })
   .catch(console.error).then(bundleCSS(pathDirSrcBundle, pathDirDestBundle));
+fsPromise
+  .mkdir(pathDirDest, { recursive: true })
+  .catch(console.error).then(recursiveCopyFolder(pathDirSrcAssets, pathDirDestAssets));
 
 
 
 
 
 
-// async function arrPromise(arr) {
-//   return await arr.map((item) => {
-//     if (typeof item === "string") {
-//       return item;
-//     } else {
-//       return item;
-//     }
-//   });
 
-// }
-// console.log(arrTemp);
-
-// fsPromise
-//   .writeFile(pathDirDest, arrTemp.join(''), (err) => {
-//     if (err) throw err;
-//   });
-
-// template.then(v => console.log(v));
-// console.log(template.then(v=>console.log(v)));
-
-// let result = await template.then();
-// console.log(result)
-
-// eslint-disable-next-line no-unused-vars
-// template = template.split(/(\/\/{{|\/\/}})/);
-// (template.then(value => console.log(value)).catch(console.error));
