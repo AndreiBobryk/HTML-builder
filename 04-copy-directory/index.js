@@ -1,12 +1,12 @@
-const path = require("path");
-const fs = require("fs");
+const path = require('path');
+const fs = require('fs');
 const fsPromise = fs.promises;
-const folderPathSource = path.join(__dirname, "files");
-const folderPathDestination = path.join(__dirname, "files-copy");
+const folderPathSource = path.join(__dirname, 'files');
+const folderPathDestination = path.join(__dirname, 'files-copy');
 
 
 const recursiveCopyFolder = (source, destination) => {
-  fsPromise.rm(destination, { recursive: true, force: true }).then((v) => {
+  fsPromise.rm(destination, { recursive: true, force: true }).then(() => {
     fsPromise
       .mkdir(destination, { recursive: true })
       .catch(console.error)
