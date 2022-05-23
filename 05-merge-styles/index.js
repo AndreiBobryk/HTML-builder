@@ -5,7 +5,9 @@ const fsPromise = fs.promises;
 const pathDirSrcBundle = path.join(__dirname, 'styles');
 const pathDirDestBundle = path.join(__dirname, 'project-dist', 'bundle.css');
 
-const bundleCSS = (source, destination) =>
+const bundleCSS = (source, destination) => {
+  const separator = '\n\n';
+
   fsPromise
     .writeFile(destination, '')
     .catch(console.error)
@@ -20,15 +22,22 @@ const bundleCSS = (source, destination) =>
               fs.readFile(pathSrc, 'utf8', (err, data) => {
                 if (err) throw err;
 
-                fsPromise.appendFile(destination, data, (err) => {
-                  if (err) throw err;
-                });
+                fsPromise
+                  .appendFile(destination, separator, (err) => {
+                    if (err) throw err;
+                  })
+                  .then(
+                    fsPromise.appendFile(destination, data, (err) => {
+                      if (err) throw err;
+                    })
+                  );
               });
             }
           });
         }
       })
     );
+};
 
 bundleCSS(pathDirSrcBundle, pathDirDestBundle);
 
