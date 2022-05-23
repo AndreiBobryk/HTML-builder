@@ -24,15 +24,12 @@ async function readTemplate(readable) {
 let arrTemp;
 readTemplate(fs.createReadStream(fileSrc)).then((v) => {
   arrTemp = v.split(/{{|}}/);
-  arrTemp.forEach((item) => {
-    console.log(item);
-  });
   fs.readdir(filesComponents, (err, files) => {
     if (err) {
       console.log(err);
     } else {
 
-      for (let i = 0; i < files.length; i++) { // проверить на условие когда файлов несколько
+      for (let i = 0; i < files.length; i++) { 
         const nameFile = files[i].slice(0, files[i].lastIndexOf('.'));
         if (arrTemp.includes(nameFile)) {
           const index = arrTemp.indexOf(nameFile);
@@ -41,8 +38,6 @@ readTemplate(fs.createReadStream(fileSrc)).then((v) => {
             arrTemp[index] = v;
             if (i === files.length - 1) {
               const data = arrTemp.join('');
-              console.log(arrTemp);
-              console.log(arrTemp.join(''));
               fsPromise
                 .mkdir(pathDirDest, { recursive: true })
                 .catch(console.error)
@@ -53,7 +48,6 @@ readTemplate(fs.createReadStream(fileSrc)).then((v) => {
                 );
             }
           });
-          console.log('yet');
         }
       }
     }
